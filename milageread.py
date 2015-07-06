@@ -1,15 +1,12 @@
 #!/usr/bin/python
 
 import serial
-import sys
 import argparse
 
-port = '/dev/ttyUSB0'
 lineshift = '\r\n'
 parser = argparse.ArgumentParser(description="Read milage from old Volvos using an ELM327 interface connected to the OBDII port.")
 parser.add_argument('port', metavar='P', 
-                  help="What port to connect to. In Windows this is usually a COM-port, and in Linux /dev/ttyUSBx or /dev/ttySx where x is the port number.",
-                  default=port)
+                  help="What port to connect to. In Windows this is usually a COM-port, and in Linux /dev/ttyUSBx or /dev/ttySx where x is the port number.")
 parser.add_argument('--debug', 
                   action='store_true',
                   help="Print debug info.",)
