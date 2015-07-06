@@ -1,9 +1,23 @@
 #!/usr/bin/python
+
 import serial
+import sys
+import argparse
+
 port = '/dev/ttyUSB0'
 lineshift = '\r\n'
-debug = 0
-    
+parser = argparse.ArgumentParser(description="Read milage from old Volvos using an ELM327 interface connected to the OBDII port.")
+parser.add_argument('port', metavar='P', 
+                  help="What port to connect to. In Windows this is usually a COM-port, and in Linux /dev/ttyUSBx or /dev/ttySx where x is the port number.",
+                  default=port)
+parser.add_argument('--debug', 
+                  action='store_true',
+                  help="Print debug info.",)
+
+args = parser.parse_args()
+port = args.port
+debug = args.debug
+
 def elmcommand(command):
     char = ' '
     reply = ''
@@ -17,8 +31,15 @@ def elmcommand(command):
     return(reply)
 
 def init():
-    initcommands = ['ATZ',
-                    'ATE1',
+    elmcheck = elmcommand('ATZ')
+    if 'ELM327' in elmcheck:
+        print('Initialized device: ' + elmcheck)
+    else:
+        print("No ELM327 device found.")
+        ser.close()
+        quit()
+
+    initcommands = ['ATE1',
                     'ATSP 3',
                     'ATH1',
                     'ATAL',
@@ -33,9 +54,14 @@ def init():
         elmcommand(command)
 
 def milageread():
-    milagebytes = elmcommand('B90300').split(' ')
-    # For offline testing:
-    # milagebytes = '85 13 51 f9 03 5d 43 85'.split(' ')
+    elmreply = elmcommand('B90300')
+    if 'ERROR' in elmreply:
+        print("BUS ERROR returned. Car not connected?")
+        return
+    milagebytes = elmreply.split(' ')
+    #For offline testing:
+    #milagebytes = '85 13 51 f9 03 5d 43 85'.split(' ')
+    if debug: print(milagebytes)
     hexvalue = milagebytes[6] + milagebytes[5]
     if debug: print (hexvalue)
     miles = int(hexvalue, 16) * 10
@@ -43,8 +69,12 @@ def milageread():
     print ("Milage: {0} miles, {1} kilometers".format(miles, kilometers))
 
 print ("Attempting communication...")
-ser = serial.Serial(port, 38400, timeout=5)
+try:
+    ser = serial.Serial(port, 38400, timeout=5)
+except:
+    print("Failed to open port " + port + ". ELM327 not connected?")
+    quit()
+
 init()
 milageread()
-
 ser.close()
