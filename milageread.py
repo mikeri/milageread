@@ -1,19 +1,28 @@
 #!/usr/bin/python
 
+# Read milage from Volvos with Motronic 4.3 ECUs using ELM327 interface
+# Written by Michael Ilsaas
+# This software is free as in libre and free as in beer.
+
 import serial
 import argparse
 
-lineshift = '\r\n'
-parser = argparse.ArgumentParser(description="Read milage from old Volvos using an ELM327 interface connected to the OBDII port.")
-parser.add_argument('port', metavar='P', 
-                  help="What port to connect to. In Windows this is usually a COM-port, and in Linux /dev/ttyUSBx or /dev/ttySx where x is the port number.")
+parser = argparse.ArgumentParser(description=("Read milage from old Volvos "
+                    "using an ELM327 interface connected to the OBDII port."))
+
+parser.add_argument('port', metavar='port', 
+                    help=("What port to connect to. In Windows this is usually "
+                    "a COM-port, and in Linux /dev/ttyUSBx or /dev/ttySx where "
+                    "x is the port number."))
+
 parser.add_argument('--debug', 
-                  action='store_true',
-                  help="Print debug info.",)
+                    action='store_true',
+                    help="Print debug info.",)
 
 args = parser.parse_args()
 port = args.port
 debug = args.debug
+lineshift = '\r\n'
 
 def elmcommand(command):
     char = ' '
@@ -23,7 +32,7 @@ def elmcommand(command):
         char = ser.read(1)
         reply = reply + char
     reply = reply.lstrip(command + lineshift)
-    reply = reply.rstrip('\n>')
+    reply = reply.rstrip(lineshift + '>')
     if debug: print (command + ': ' + reply)
     return(reply)
 
@@ -53,7 +62,7 @@ def init():
 def milageread():
     elmreply = elmcommand('B90300')
     if 'ERROR' in elmreply:
-        print("BUS ERROR returned. Car not connected?")
+        print(elmreply + " returned. Car not connected, or incompatible vehicle?")
         return
     milagebytes = elmreply.split(' ')
     #For offline testing:

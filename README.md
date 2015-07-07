@@ -1,5 +1,5 @@
 # milageread
-Read milage from old Volvos with Motronic 4.3 via ELM327 connected to the OBD II port.
+Read milage from Volvos with Motronic 4.3 via ELM327 connected to the OBD II port.
 
 Please note, I'm not 100% sure yet if all ECUs return the driven distance in miles as I've assumed. Right now the reading on my car seems to add up with what I've driven after the odometer gear broke, but I don't know if the ECU has been replaced or reset by any previous owners. I need to make another reading in a few weeks to be absolutely sure. 
 
@@ -21,3 +21,5 @@ Special thanks to Richard H. Jones, without his awesome research and public shar
 http://jonesrh.info/volvo850/elm327_reads_volvo_850_mileage.html this would never have been possible.
 
 Video demonstration: https://www.youtube.com/watch?v=_e1wRY2nrhU
+
+There is also a stand alone compiled version for Windows at http://mikeri.net/milageread.zip that does not require installation of any extras.
