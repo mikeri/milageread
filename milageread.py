@@ -28,12 +28,17 @@ def elmcommand(command):
     char = ' '
     reply = ''
     ser.write(command + lineshift) 
+    debugprint("Sent request: " + command)
     while char != '>':
         char = ser.read(1)
-        reply = reply + char
+        if char == '':
+            print("Request timed out.")
+            quit()
+        else:
+            reply = reply + char
     reply = reply.lstrip(command + lineshift)
     reply = reply.rstrip(lineshift + '>')
-    if debug: print (command + ': ' + reply)
+    debugprint(command + ' reply: ' + reply)
     return(reply)
 
 def init():
@@ -67,16 +72,20 @@ def milageread():
     milagebytes = elmreply.split(' ')
     #For offline testing:
     #milagebytes = '85 13 51 f9 03 5d 43 85'.split(' ')
-    if debug: print(milagebytes)
+    debugprint(milagebytes)
     hexvalue = milagebytes[6] + milagebytes[5]
-    if debug: print (hexvalue)
+    debugprint(hexvalue)
     miles = int(hexvalue, 16) * 10
     kilometers = int(miles * 1.60934)
     print ("Milage: {0} miles, {1} kilometers".format(miles, kilometers))
 
+def debugprint(message):
+    if debug: print("DEBUG: " +message)
+
 print ("Attempting communication...")
 try:
-    ser = serial.Serial(port, 38400, timeout=5)
+    ser = serial.Serial(port=port, baudrate=38400, timeout=5, writeTimeout=5)
+    debugprint("Port " + port + " opened successfully.")
 except:
     print("Failed to open port " + port + ". ELM327 not connected?")
     quit()
