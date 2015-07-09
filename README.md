@@ -10,7 +10,7 @@ Usage is simple, just specify what port the ELM327 is connected to. In Linux an 
 ./milageread.py /dev/ttyUSB0
 ```
 
-or in Windpws:
+or in Windows:
 ```
 python milageread.py COM1
 ```
