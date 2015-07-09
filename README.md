@@ -15,11 +15,11 @@ or in Windpws:
 python milageread.py COM1
 ```
 
-I've tested it on my own '96 850 T5 from two Linux machines. I haven't tested it on Windows yet, but it should work.
+I've tested it on my own '96 850 T5 from two Linux machines and an old laptop running Windows XP.
 
 Special thanks to Richard H. Jones, without his awesome research and public sharing of it at
 http://jonesrh.info/volvo850/elm327_reads_volvo_850_mileage.html this would never have been possible.
 
 Video demonstration: https://www.youtube.com/watch?v=_e1wRY2nrhU
 
-There is also a stand alone compiled version for Windows at http://mikeri.net/milageread.zip that does not require installation of any extras.
+There is also a stand alone compiled version for Windows at http://mikeri.net/milageread.zip that does not require installation of Python.
