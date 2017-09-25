@@ -1,5 +1,5 @@
 # milageread
-Read milage from Volvos with Motronic 4.3 via ELM327 connected to the OBD II port.
+Read milage from Volvo 850 via ELM327 connected to the OBD II port.
 
 Usage is simple, just specify what port the ELM327 is connected to. In Linux an example would be:
 ```
@@ -15,6 +15,8 @@ I've tested it on my own '96 850 T5 from two Linux machines and an old laptop ru
 
 Special thanks to Richard H. Jones, without his awesome research and public sharing of it at
 http://jonesrh.info/volvo850/elm327_reads_volvo_850_mileage.html this would never have been possible.
+
+More robust connection handling, comprehensive testing and precise error reporting also done by Richard H. Jones.
 
 Video demonstration: https://www.youtube.com/watch?v=_e1wRY2nrhU
 
